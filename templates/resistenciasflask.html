@@ -1,86 +1,235 @@
 {% extends "layout.html" %}
 
 {% block content %}
-{% import "_macros.html" as macros %}
+  {% import "_macros.html" as macros %}
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+    }
+  
+    h1, h4 {
+      font-family: 'Helvetica', sans-serif;
+      font-weight: bold;
+      color: #333;
+    }
+  
+    .form-label {
+      font-weight: bold;
+      color: #555;
+    }
+  
+    .tolerancia-label {
+      margin-left: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+  
+    .btn {
+      font-family: 'Arial', sans-serif;
+      font-weight: bold;
+    }
+  
+    .btn-icon i {
+      margin-right: 5px;
+    }
+  
+    select.form-control {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-top: 5px;
+      overflow: hidden;
+      height: 36px;
+      transition: height 0.3s ease;
+    }
+  
+    select.form-control:hover,
+    select.form-control:focus {
+      height: auto;
+    }
+  
+    .form-check-label {
+      margin-left: 5px;
+    }
+  
+    .table-header th {
+      background-color: #597E5F;
+      color: #fff;
+      border-radius: 5px;
+    }
+  
+    .table tbody td {
+      color: #333;
+    }
+  
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+  
+    .table th, .table td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+  
+    .table tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+  
+    .btn-container {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    .btn-container button {
+      width: 48%;
+    }
+  
+    .btn-container button:hover {
+      transform: scale(1.1);
+    }
+  </style>
 
-    <h1>Resistencias Flask</h1>
-    <form action="" method="POST">
-        <div class="row g-4">
-            <div class="col-md-3">
-                <label for="banda1">De que color es la banda 1:</label>
-                <select name="banda1" id="banda1">
-                    <option value="negro" selected> Negro </option>
-                    <option value="cafe"> Cafe </option>
-                    <option value="rojo"> Rojo </option>
-                    <option value="naranja"> Naranja </option>
-                    <option value="amarilo"> Amarillo </option>
-                    <option value="verde"> Verde </option>
-                    <option value="azul"> Azul </option>
-                    <option value="violeta"> Violeta </option>
-                    <option value="gris"> Gris </option>
-                    <option value="blanco"> Blanco </option>
-                </select>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-4"></div>
+      <div class="col-sm-4">
+        <h1 class="text-center mt-4 mb-4">Resistencias Flask</h1>
+        <form action="" method="POST" novalidate>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="primer_banda" class="form-label">Primer Banda</label>
+                {{ 
+                    macros.banda_color(
+                        "primer_banda", 
+                        "form-control"
+                    ) 
+                }}
+              </div>
             </div>
-            <div class="col-md-3">
-                <label for="banda2">De que color es la banda 2:</label>
-                <select name="banda2" id="banda2">
-                    <option value="negro2" selected> Negro </option>
-                    <option value="cafe2"> Cafe </option>
-                    <option value="rojo2"> Rojo </option>
-                    <option value="naranja2"> Naranja </option>
-                    <option value="amarilo2"> Amarillo </option>
-                    <option value="verde2"> Verde </option>
-                    <option value="azul2"> Azul </option>
-                    <option value="violeta2"> Violeta </option>
-                    <option value="gris2"> Gris </option>
-                    <option value="blanco2"> Blanco </option>
-                </select>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="segunda_banda" class="form-label">Segunda Banda</label>
+                {{ 
+                    macros.banda_color(
+                        "segunda_banda", 
+                        "form-control"
+                    ) 
+                }}
+              </div>
             </div>
-            <div class="col-md-3">
-                <label for="banda3">De que color es la banda 3:</label>
-                <select name="banda3" id="banda3">
-                    <option value="negro3" selected> Negro </option>
-                    <option value="cafe3"> Cafe </option>
-                    <option value="rojo3"> Rojo </option>
-                    <option value="naranja3"> Naranja </option>
-                    <option value="amarilo3"> Amarillo </option>
-                    <option value="verde3"> Verde </option>
-                    <option value="azul3"> Azul </option>
-                    <option value="violeta3"> Violeta </option>
-                    <option value="gris3"> Gris </option>
-                    <option value="blanco3"> Blanco </option>
-                </select>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="tercer_banda" class="form-label">Tercer Banda (Multiplicador)</label>
+                {{ 
+                    macros.banda_multiplicador(
+                        "tercer_banda", 
+                        "form-control"
+                        ) 
+                }}
+              </div>
             </div>
-            <div class="col-md-3">
-                <h3> Tolerancia </h3>
-                <input type="radio" name="dorado" id="dorado" style="margin-right: 5px;"/> Dorado <br>
-                <input type="radio" name="plata" id="plata" style="margin-right: 5px;"/> Plata <br><br>
+          </div>
+          <div class="row mt-4">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label for="tolerancia" class="form-label">Tolerancia</label>
+                {{ 
+                    macros.banda_tolerancia(
+                        "oro"
+                    ) 
+                }}
+                <label for="oro" class="tolerancia-label">Oro</label>
+                {{ 
+                    macros.banda_tolerancia(
+                        "plata"
+                    ) 
+                }}
+                <label for="plata" class="tolerancia-label">Plata</label>
+              </div>
             </div>
-            <div class="col-md-3">
-                <input type = "submit" style="margin-right: 15px;"/><input type="reset"/>
+          </div>
+          <div class="row mt-4">
+            <div class="col-sm-12">
+              <div class="btn-container">
+                <button type="submit" class="btn btn-success btn-icon">
+                  <i class="bi bi-check"></i> Registrar
+                </button>
+                <button type="reset" class="btn btn-info btn-icon">
+                  <i class="bi bi-arrow-counterclockwise"></i> Reiniciar
+                </button>
+              </div>
             </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-4"></div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-sm-12">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="text-center table-header">
+              <tr>
+                <th>Color 1</th>
+                <th>Color 2</th>
+                <th>Color 3</th>
+                <th>Tolerancia</th>
+                <th>Valor</th>
+                <th>Valor Minimo</th>
+                <th>Valor Máximo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {{ 
+                    macros.data_bgcolor(
+                        primer_banda, 
+                        color1
+                    ) 
+                }}
+                {{ 
+                    macros.data_bgcolor(
+                        segunda_banda, color2
+                    ) 
+                }}
+                {{ 
+                    macros.data_bgcolor(
+                        tercer_banda, 
+                        color3
+                    )
+                }}
+                {{ 
+                    macros.data_bgcolor(
+                        radio_tol, 
+                        color4
+                    ) 
+                }}
+                {{ 
+                    macros.data_bgcolor(
+                        value
+                    ) 
+                }}
+                {{ 
+                    macros.data_bgcolor(
+                        valor_maximo
+                    ) 
+                }}
+                {{ 
+                    macros.data_bgcolor(
+                        valor_minimo
+                    ) 
+                }}
+              </tr>
+            </tbody>
+          </table>
         </div>
-    </form>
-
-    <table>
-        <tr>
-          <th>Color 1</th>
-          <th>Color 2</th>
-          <th>Color 3</th>
-          <th>Tolerancia</th>
-          <th>Valor</th>
-          <th>Valor Máximo</th>
-          <th>Valor Mínimo</th>
-        </tr>
-        <tr>
-          <td>| {{color1}} |</td>
-          <td>| {{color2}} |</td>
-          <td>| {{color3}} |</td>
-          <td>| {{tolerancia}} |</td>
-          <td>| {{valor}} |</td>
-          <td>| {{valormaximo}} |</td>
-          <td>| {{valorminimo}} |</td>
-        </tr>
-      </table>
-
+      </div>
+    </div>
+  </div>
 {% endblock %}

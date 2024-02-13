@@ -1,12 +1,45 @@
-{%macro datos(name, placeholder, type='number') %}
+{% macro render_input(name, placeholder, type="text") %}
+<div class="control-group">
+    <label for="{{name}}" class="control-label">{{placeholder}}</label>
+    <div class="controls">
+        <input type="{{type}}" name="{{name}}" placeholder="{{placeholder}}" value="">
+    </div>
+</div>
+{% endmacro %}
 
-<p><input type="{{type}}" name="{{name}}" placeholder="{{placeholder}}"></p>
+{% macro render_field(field) %}
+<div class="control-group">
+    <div class="controls">
+        {{ field.label }}
+        {{ field(**kwargs) | safe }}
+    </div>
+</div>
+{% endmacro %}
 
-{%endmacro %}
+{% macro crear_lista(name, class="", options={}) %}
+    <select name="{{ name }}" class="{{ class }}">
+        <option value="" selected disabled>Seleccionar</option>
+        {% for value, label in options.items() %}
+            <option value="{{ value }}">{{ label }}</option>
+        {% endfor %}
+    </select>
+{% endmacro %}
 
-{%macro new_field(field)%}
+{% macro banda_color(name, class="") %}
+    {{ crear_lista(name, class, {'0': 'Negro', '1': 'Cafe', '2': 'Rojo', '3': 'Naranja', '4': 'Amarillo',
+                                   '5': 'Verde', '6': 'Azul', '7': 'Violeta', '8': 'Gris', '9': 'Blanco'}) }}
+{% endmacro %}
 
-<td>{{field.label}}</td>
-<td>{{field(**kwargs)| safe}}</td>
+{% macro banda_multiplicador(name, class="") %}
+    {{ crear_lista(name, class, {'1': 'Negro', '10': 'Cafe', '100': 'Rojo', '1000': 'Naranja',
+                                   '10000': 'Amarillo', '100000': 'Verde', '1000000': 'Azul',
+                                   '10000000': 'Violeta', '100000000': 'Gris', '1000000000': 'Blanco'}) }}
+{% endmacro %}
 
-{%endmacro %}
+{% macro banda_tolerancia(value) %}
+    <input type="radio" name="radio_tol" value="{{ value }}" class="form-control">
+{% endmacro %}
+
+{% macro data_bgcolor(value, color="") %}
+    <td style="background-color: {{ color }};">{{ value }}</td>
+{% endmacro %}
