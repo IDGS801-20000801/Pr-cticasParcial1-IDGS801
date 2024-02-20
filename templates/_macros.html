@@ -11,8 +11,24 @@
 <div class="control-group">
     <div class="controls">
         {{ field.label }}
-        {{ field(**kwargs) | safe }}
+        {% if field.type == 'RadioField' %}
+            <div>
+                {% for choice in field %}
+                    {{ choice.label(class="radio-inline") }}
+                    {{ choice() }}
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ field(class="form-control") | safe }}
+        {% endif %}
     </div>
+    {% if field.errors %}
+        <ul>
+            {% for error in field.errors %}
+                <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </div>
 {% endmacro %}
 

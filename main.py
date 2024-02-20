@@ -1,7 +1,7 @@
-import math
 from flask import Flask, render_template, request
 import forms
 from ResistenciasCalculo import calcular_valores
+from Traductor import saveWords, returnWords
 
 app = Flask(__name__)
 
@@ -54,6 +54,18 @@ def CalculoResistencias():
                            color3 = color3, 
                            color4 = color4, 
                            radio_tol = radio_tol)
+
+@app.route("/traductor", methods=['GET', 'POST'])
+def gestionar_diccionario():
+    translator_dic = forms.DiccionarioForm(request.form)
+
+    if request.method == 'POST' and translator_dic.validate():
+        palabra_espanhol = translator_dic.palabra_espanhol.data
+        english_word = translator_dic.english_word.data
+        saveWords(palabra_espanhol, english_word)
+
+    return render_template("traductor.html", form = translator_dic)
+
 
 if __name__ ==  "__main__":
     app.run(debug=True)
